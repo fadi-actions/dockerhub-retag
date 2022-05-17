@@ -1,0 +1,25 @@
+name: dockerhub-retag
+author: airbone95 <airbone95@users.noreply.github.com>
+description: retag docker images in dockerhub without pulling
+branding:
+  icon: 'box'
+  color: 'blue'
+inputs:
+  old_tag:
+    description: the old tag that should recieve the new tag (old tag will NOT be deleted)
+    required: true
+  new_tag:
+    description: the new tag you want to set on the old tag image
+    required: true
+  dockerhub_username:
+    description: username to login to dockerhub
+    required: true
+  dockerhub_password:
+    description: password to login to dockerhub
+    required: true
+  dockerhub_repo:
+    description: image repo in dockerhub
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
