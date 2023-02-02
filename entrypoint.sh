@@ -25,7 +25,7 @@ RC=$(curl -sL -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.oci.
 if [ "$RC" -eq 200 ]; then
   echo "manifest for $INPUT_OLD_TAG retrieved successfully as oci image"
 else
-  echo "error retrieving manifest for $INPUT_OLD_TAG as oci image. trying docker: "
+  echo "error retrieving manifest for $INPUT_OLD_TAG as oci image. trying docker. "
   cat $TMPFILE
   RC=$(curl -sL -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.docker.distribution.manifest.v2+json"  "https://index.docker.io/v2/$INPUT_DOCKERHUB_REPO/manifests/$INPUT_OLD_TAG" -o $TMPFILE -w "%{http_code}")
   if [ "$RC" -eq 200 ]; then
@@ -44,7 +44,8 @@ RC=$(curl -sL -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/vn
 if [ "$RC" -eq 201 ]; then
   echo "new tag $INPUT_NEW_TAG created successfully as OCI image"
 else
-  echo "error creating new tag $INPUT_NEW_TAG as OCI image. trying docker:"
+  echo "error creating new tag $INPUT_NEW_TAG as OCI image. trying docker"
+  cat $TMPFILE2
   RC=$(curl -sL -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/vnd.docker.distribution.manifest.v2+json"  "https://index.docker.io/v2/$INPUT_DOCKERHUB_REPO/manifests/$INPUT_NEW_TAG" -X PUT -d "@$TMPFILE" -o $TMPFILE2 -w "%{http_code}")
   if [ "$RC" -eq 201 ]; then
     echo "new tag $INPUT_NEW_TAG created successfully as docker image"
