@@ -26,6 +26,7 @@ if [ "$RC" -eq 200 ]; then
   echo "manifest for $INPUT_OLD_TAG retrieved successfully as oci image"
 else
   echo "error retrieving manifest for $INPUT_OLD_TAG as oci image. trying docker: "
+  cat $TMPFILE
   RC=$(curl -sL -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.docker.distribution.manifest.v2+json"  "https://index.docker.io/v2/$INPUT_DOCKERHUB_REPO/manifests/$INPUT_OLD_TAG" -o $TMPFILE -w "%{http_code}")
   if [ "$RC" -eq 200 ]; then
     echo "manifest for $INPUT_OLD_TAG retrieved successfully as docker image"
@@ -34,7 +35,6 @@ else
     cat $TMPFILE
     e 2
   fi
-  cat $TMPFILE
   e 2
 fi
 
@@ -53,7 +53,6 @@ else
     cat $TMPFILE2
     e 3
   fi
-  cat $TMPFILE2
   e 3
 fi
 
