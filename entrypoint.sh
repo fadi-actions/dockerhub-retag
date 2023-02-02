@@ -35,7 +35,6 @@ else
     cat $TMPFILE
     e 2
   fi
-  e 2
 fi
 
 ## push manifest with new tag to dockerhub
@@ -54,7 +53,6 @@ else
     cat $TMPFILE2
     e 3
   fi
-  e 3
 fi
 
 
