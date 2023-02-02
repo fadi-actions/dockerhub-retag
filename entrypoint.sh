@@ -40,17 +40,17 @@ fi
 
 ## push manifest with new tag to dockerhub
 echo "pushing manifest to https://index.docker.io/v2/$INPUT_DOCKERHUB_REPO/manifests/$INPUT_NEW_TAG"
-RC=$(curl -sL -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/vnd.oci.image.index.v1+json"  "https://index.docker.io/v2/$INPUT_DOCKERHUB_REPO/manifests/$INPUT_NEW_TAG" -X PUT -d "@$TMPFILE" -o $TMPFILE2 -w "%{http_code}")
+RC=$(curl -sL -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/vnd.docker.distribution.manifest.v2+json"  "https://index.docker.io/v2/$INPUT_DOCKERHUB_REPO/manifests/$INPUT_NEW_TAG" -X PUT -d "@$TMPFILE" -o $TMPFILE2 -w "%{http_code}")
 if [ "$RC" -eq 201 ]; then
-  echo "new tag $INPUT_NEW_TAG created successfully as OCI image"
+  echo "new tag $INPUT_NEW_TAG created successfully as docker image"
 else
-  echo "error creating new tag $INPUT_NEW_TAG as OCI image. trying docker"
+  echo "error creating new tag $INPUT_NEW_TAG as docker image. trying oci"
   cat $TMPFILE2
-  RC=$(curl -sL -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/vnd.docker.distribution.manifest.v2+json"  "https://index.docker.io/v2/$INPUT_DOCKERHUB_REPO/manifests/$INPUT_NEW_TAG" -X PUT -d "@$TMPFILE" -o $TMPFILE2 -w "%{http_code}")
+  RC=$(curl -sL -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/vnd.oci.image.index.v1+json"  "https://index.docker.io/v2/$INPUT_DOCKERHUB_REPO/manifests/$INPUT_NEW_TAG" -X PUT -d "@$TMPFILE" -o $TMPFILE2 -w "%{http_code}")
   if [ "$RC" -eq 201 ]; then
-    echo "new tag $INPUT_NEW_TAG created successfully as docker image"
+    echo "new tag $INPUT_NEW_TAG created successfully as docker oci"
   else
-    echo "error creating new tag $INPUT_NEW_TAG as docker image"
+    echo "error creating new tag $INPUT_NEW_TAG as docker oci"
     cat $TMPFILE2
     e 3
   fi
