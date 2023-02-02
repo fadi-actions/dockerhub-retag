@@ -32,6 +32,7 @@ else
     echo "error retrieving manifest for $INPUT_OLD_TAG:"
     cat $TMPFILE
     e 2
+  fi
   echo "error retrieving manifest for $INPUT_OLD_TAG:"
   cat $TMPFILE
   e 2
@@ -50,6 +51,7 @@ else
     echo "error creating new tag $INPUT_NEW_TAG:"
     cat $TMPFILE2
     e 3
+  fi
   echo "error creating new tag $INPUT_NEW_TAG:"
   cat $TMPFILE2
   e 3
